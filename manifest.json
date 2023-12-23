@@ -1,6 +1,6 @@
 {
-  "name": "배경색 변경 크롬 확장 프로그램",
-  "description": "웹 페이지의 배경색을 변경해 주는 크롬 확장 프로그램입니다.",
+  "name": "아프리카 채팅창 디자인 변경",
+  "description": "아프리카 채팅창의 디자인을 깔끔하게 도와줍니다.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
@@ -12,7 +12,7 @@
     "default_icon": {
       "16": "/images/icons8-color-16.png",
       "32": "/images/icons8-color-32.png",
-      "48": "/images/icons8-color-48.png",
+      "64": "/images/icons8-color-64.png",
       "128": "/images/icons8-color-128.png"
     }
   },
@@ -26,7 +26,7 @@
   "icons": {
     "16": "/images/icons8-color-16.png",
     "32": "/images/icons8-color-32.png",
-    "48": "/images/icons8-color-48.png",
+    "64": "/images/icons8-color-64.png",
     "128": "/images/icons8-color-128.png"
   },
   "options_page": "options.html"
