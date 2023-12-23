@@ -1,15 +1,25 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
+  <meta charset="utf-8" />
   <head>
-    <title>My First Extension</title>
+    <link rel="stylesheet" href="button.css" />
     <style>
       body {
-        width: 300px;
+        width: 200px;
         height: 200px;
+      }
+      #whiteColor {
+        border: 1px solid black;
+        background-color: #fff;
       }
     </style>
   </head>
   <body>
-    Hello, this is my first extension!
+    <button id="changeColor"></button>
+    <p id="change">색상 변경</p>
+    <button id="whiteColor"></button>
+    <p id="change">화면 복구</p>
+    <button id="deleteButton"></button>
+    <p id="change">광고 삭제</p>
+    <script src="popup.js"></script>
   </body>
 </html>
