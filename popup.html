@@ -6,20 +6,50 @@
       body {
         width: 200px;
         height: 200px;
+        padding: 10px;
+        font-family: "Segoe UI", sans-serif;
       }
-      #whiteColor {
-        border: 1px solid black;
+      .toggleSwitch {
+        width: 50px;
+        height: 25px;
+        display: block;
+        position: relative;
+        border-radius: 30px;
         background-color: #fff;
+        box-shadow: 0 0 16px 3px rgba(0 0 0 / 15%);
+        cursor: pointer;
+        margin: 30px;
+      }
+      .toggleSwitch .toggleButton {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        left: 4px;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        background: #f03d3d;
+      }
+
+      #toggle:checked ~ .toggleSwitch {
+        background: #f03d3d;
+      }
+
+      #toggle:checked ~ .toggleSwitch .toggleButton {
+        left: calc(100% - 22px);
+        background: #fff;
+      }
+      .toggleSwitch,
+      .toggleButton {
+        transition: all 0.2s ease-in;
       }
     </style>
   </head>
   <body>
-    <button id="changeColor"></button>
-    <p id="change">색상 변경</p>
-    <button id="whiteColor"></button>
-    <p id="change">화면 복구</p>
-    <button id="deleteButton"></button>
-    <p id="change">광고 삭제</p>
+    <input type="checkbox" id="toggle" hidden />
+    <label for="toggle" class="toggleSwitch">
+      <span class="toggleButton"></span>
+    </label>
     <script src="popup.js"></script>
   </body>
 </html>
