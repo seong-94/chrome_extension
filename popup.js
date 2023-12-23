@@ -4,11 +4,13 @@
  * ---------------------------------------------------------------------------------
  **/
 
-document.getElementById("toggle").addEventListener((message, sender, sendRspose) => {
-  if (message.action === "toggleDisplay") {
-    const elements = document.querySelectorAll(".chat_area dl img");
-    elements.forEach((element) => {
-      element.style.display = element.style.display === "none" ? "block" : "none";
-    });
-  }
+document.getElementById("toggle").addEventListener("click", () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, { action: "toggle" });
+  });
+});
+document.getElementById("toggle2").addEventListener("click", () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(tabs[0].id, { action: "toggle" });
+  });
 });
