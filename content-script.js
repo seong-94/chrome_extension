@@ -40,11 +40,15 @@ function moveDdTextToDt(dlSelector) {
     // dd 요소가 존재하면 작업을 수행합니다.
     if (ddElement) {
       // dd의 텍스트를 취득합니다.
-      const text = ddElement.textContent || ddElement.innerText;
+      const text = ddElement.innerHTML;
 
       // 새로운 p 요소를 생성하고 텍스트를 설정합니다.
       const p = document.createElement("p");
-      p.textContent = text;
+      if (text.indexOf("<br>") === -1) {
+        p.innerHTML = text;
+      } else {
+        p.innerHTML = "<br>" + text;
+      }
       p.style.color = "#fff";
       p.style.display = "inline";
       p.style.padding = "1px 0 1px 5px";
@@ -78,6 +82,7 @@ function applyRandomPastelColorsToNewLinks() {
     link.setAttribute("data-colored", "true"); // 스타일 적용 여부를 표시하는 데이터 속성 추가
   });
 }
+
 const observerCallback = (mutationList, observer) => {
   for (const mutation of mutationList) {
     if (mutation.type === "childList") {
