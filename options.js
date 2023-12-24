@@ -25,7 +25,7 @@
 
 //   let color = event.target.dataset.color;
 //   event.target.classList.add(selectedClassName);
-//   chrome.storage.sync.set({ color });
+//   chrome.storage..set({ color });
 // }
 
 // /**
@@ -33,7 +33,7 @@
 //  * @description 제공할 배경색을 웹 페이지에 표시하여 줍니다.
 //  **/
 // function constructOptions(buttonColors) {
-//   chrome.storage.sync.get("color", (data) => {
+//   chrome.storage..get("color", (data) => {
 //     let currentColor = data.color;
 //     for (let buttonColor of buttonColors) {
 //       let button = document.createElement("button");
