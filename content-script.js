@@ -1,10 +1,6 @@
-// 특정 요소를 삭제하는 함수
+/*  정해진 요소의 패딩을 변경
+ *  "1px 0 1px 30px" => "1px 0 1px 8px"*/
 
-// function removeElementBySelector(selector){
-//     const elements =document.querySelectorAll(selector);
-//     elements.forEach((element) => element.)
-// }
-// .chat_area dl dd
 function editCharAreaPadding(selectors) {
   selectors.forEach((selector) => {
     const elements = document.querySelectorAll(selector);
@@ -13,15 +9,24 @@ function editCharAreaPadding(selectors) {
     });
   });
 }
+
+/* 채팅창의 레이아웃을 변경하기 위험 display:flex 요소 추가 */
 function editCharAreaFlex(selector) {
   const elements = document.querySelectorAll(selector);
   elements.forEach((element) => (element.style.display = "flex"));
 }
-
-function removeCharAreaImage(selector) {
+/* 특정 타이틀을 가진 이모티콘 img 태그 display:none */
+function hideImagesWithCertainTitles(selector, titles) {
   const elements = document.querySelectorAll(selector);
-  elements.forEach((element) => (element.style.display = "none"));
+  elements.forEach((element) => {
+    // element의 title 속성이 titles 배열에 포함된 값 중 하나와 일치하는지 확인
+    if (titles.includes(element.title)) {
+      element.style.display = "none";
+    }
+  });
 }
+
+/* 아이콘 삭제 기능  */
 function removeElementBySelector(selector) {
   const elements = document.querySelectorAll(selector);
   elements.forEach((element) => element.remove());
@@ -91,9 +96,16 @@ const observerCallback = (mutationList, observer) => {
 
       editCharAreaFlex(".chat_area dl");
 
-      removeCharAreaImage([".chat_area dl img", ".chat_area dl span"]);
+      hideImagesWithCertainTitles(".chat_area dl img", [
+        "매니저",
+        "구독팬",
+        "팬클럽",
+        "퀵뷰 사용자",
+        "서포터",
+        "열혈팬",
+      ]);
 
-      removeElementBySelector(".pc");
+      removeElementBySelector([".pc", ".chat_area dl span"]);
 
       moveDdTextToDt(".chat_area dl");
 

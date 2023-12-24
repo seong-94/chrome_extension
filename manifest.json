@@ -6,7 +6,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": ["scripting"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -18,7 +18,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.afreecatv.com/*"],
+      "matches": ["https://*.afreecatv.com/*"],
       "js": ["content-script.js"],
       "run_at": "document_idle"
     }
@@ -28,6 +28,5 @@
     "32": "/images/icons8-color-32.png",
     "64": "/images/icons8-color-64.png",
     "128": "/images/icons8-color-128.png"
-  },
-  "options_page": "options.html"
+  }
 }
