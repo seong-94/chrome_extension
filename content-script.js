@@ -9,7 +9,7 @@ function editCharAreaPadding(selectors) {
   selectors.forEach((selector) => {
     const elements = document.querySelectorAll(selector);
     elements.forEach((element) => {
-      element.style.padding = "1px 0 1px 10px";
+      element.style.padding = "1px 0 1px 8px";
     });
   });
 }
@@ -60,22 +60,24 @@ function moveDdTextToDt(dlSelector) {
   });
 }
 
-// function getRandomPastelColor() {
-//   // 파스텔 색상을 위해 높은 RGB 값을 랜덤으로 생성
-//   const r = Math.floor(Math.random() * 128 + 127); // 127-255
-//   const g = Math.floor(Math.random() * 128 + 127); // 127-255
-//   const b = Math.floor(Math.random() * 128 + 127); // 127-255
-//   return `rgb(${r}, ${g}, ${b})`;
-// }
+function getRandomPastelColor() {
+  // 파스텔 색상을 위해 높은 RGB 값을 랜덤으로 생성
+  const r = Math.floor(Math.random() * 128 + 127); // 127-255
+  const g = Math.floor(Math.random() * 128 + 127); // 127-255
+  const b = Math.floor(Math.random() * 128 + 127); // 127-255
+  return `rgb(${r}, ${g}, ${b})`;
+}
 
-// function applyRandomPastelColorsToLinks() {
-//   const links = document.querySelectorAll("a");
-//   links.forEach((link) => {
-//     const pastelColor = getRandomPastelColor();
-//     link.style.color = pastelColor;
-//   });
-// }
+function applyRandomPastelColorsToNewLinks() {
+  const links = document.querySelectorAll("a:not([data-colored])"); // 이미 색상이 적용되지 않은 링크들만 선택
 
+  links.forEach((link) => {
+    const pastelColor = getRandomPastelColor();
+    link.style.color = pastelColor;
+    link.style.fontWeight = "bold";
+    link.setAttribute("data-colored", "true"); // 스타일 적용 여부를 표시하는 데이터 속성 추가
+  });
+}
 const observerCallback = (mutationList, observer) => {
   for (const mutation of mutationList) {
     if (mutation.type === "childList") {
@@ -90,7 +92,7 @@ const observerCallback = (mutationList, observer) => {
 
       moveDdTextToDt(".chat_area dl");
 
-      //   applyRandomPastelColorsToLinks(".chat_area dl a");
+      applyRandomPastelColorsToNewLinks(".chat_area dl a");
     }
   }
 };
