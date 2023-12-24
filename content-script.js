@@ -77,14 +77,15 @@ function getRandomPastelColor() {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function applyRandomPastelColorsToNewLinks() {
-  const links = document.querySelectorAll("a:not([data-colored])"); // 이미 색상이 적용되지 않은 링크들만 선택
+function applyRandomPastelColorsToNewLinks(selector) {
+  // 주어진 selector와 :not([data-colored])를 함께 사용하여 색상이 적용되지 않은 링크들만 선택합니다.
+  const links = document.querySelectorAll(`${selector}:not([data-colored])`);
 
   links.forEach((link) => {
     const pastelColor = getRandomPastelColor();
     link.style.color = pastelColor;
     link.style.fontWeight = "bold";
-    link.setAttribute("data-colored", "true"); // 스타일 적용 여부를 표시하는 데이터 속성 추가
+    link.setAttribute("data-colored", "true"); // 스타일 적용 여부를 표시하는 데이터 속성을 추가합니다.
   });
 }
 
