@@ -45,7 +45,7 @@
 #### 종료를 원할시에는
 
 1. 확장 프로그램 관리
-2. ![Alt text](image.png)
+2. ![Alt text](mdImages/image.png)
 3. 토글 버튼을 눌러서 직접 끈 뒤에 새로 고침 진행
 
 ## 기여 방법
