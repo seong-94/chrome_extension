@@ -53,7 +53,7 @@ function moveDdTextToDt(dlSelector) {
       p.innerHTML = text.includes("<br>") ? "<br>" + text : text;
       p.style.color = isDarkTheme ? "#fff" : "black"; // 다크 테마면 흰색, 아니면 검은색
       p.style.display = "inline";
-      p.style.padding = "1px 0 1px 5px";
+      p.style.padding = "0px 0 1px 5px";
 
       // dt 요소가 존재하면, 새로운 p 요소를 dt에 추가합니다.
       if (dtElement) {
@@ -97,12 +97,31 @@ function applyRandomPastelColorsToNewLinks(selector) {
   });
 }
 
-function adjustChatAreaPColor() {
-  const chatAreaPs = document.querySelectorAll(".chat_area dl p");
+// function adjustChatAreaPColor() {
+//   const chatAreaPs = document.querySelectorAll(".chat_area dl p");
+//   const isDarkTheme = document.body.classList.contains("thema_dark");
+
+//   chatAreaPs.forEach((p) => {
+//     p.style.color = isDarkTheme ? "#fff" : "black";
+//   });
+// }
+
+function adjustChatAreaColors() {
   const isDarkTheme = document.body.classList.contains("thema_dark");
 
+  // p 태그의 색상 조정
+  const chatAreaPs = document.querySelectorAll(".chat_area dl p");
   chatAreaPs.forEach((p) => {
     p.style.color = isDarkTheme ? "#fff" : "black";
+  });
+
+  // a 태그의 색상 조정
+  const chatAreaAs = document.querySelectorAll(".chat_area dl a");
+  chatAreaAs.forEach((a) => {
+    // 이미 적용된 색상(data-colored)이 있다면, 색상을 조정합니다.
+    if (a.hasAttribute("data-colored")) {
+      a.style.color = getRandomColorBasedOnTheme(isDarkTheme);
+    }
   });
 }
 
@@ -130,7 +149,7 @@ const observerCallback = (mutationList, observer) => {
       applyRandomPastelColorsToNewLinks(".chat_area dl a");
     }
     if (mutation.type === "attributes" && mutation.target.localName === "body") {
-      adjustChatAreaPColor();
+      adjustChatAreaColors();
     }
   }
 };
