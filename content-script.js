@@ -32,8 +32,9 @@ function removeElementBySelector(selector) {
   elements.forEach((element) => element.remove());
 }
 
-// 함수: dl 태그 내의 dt의 텍스트를 dd 내부에 span으로 랜더링
 function moveDdTextToDt(dlSelector) {
+  const isDarkTheme = document.body.classList.contains("thema_dark");
+
   // dlSelector에 해당하는 모든 dl 요소를 찾습니다.
   const dlElements = document.querySelectorAll(dlSelector);
 
@@ -49,12 +50,8 @@ function moveDdTextToDt(dlSelector) {
 
       // 새로운 p 요소를 생성하고 텍스트를 설정합니다.
       const p = document.createElement("p");
-      if (text.indexOf("<br>") === -1) {
-        p.innerHTML = text;
-      } else {
-        p.innerHTML = "<br>" + text;
-      }
-      p.style.color = "#fff";
+      p.innerHTML = text.includes("<br>") ? "<br>" + text : text;
+      p.style.color = isDarkTheme ? "#fff" : "black"; // 다크 테마면 흰색, 아니면 검은색
       p.style.display = "inline";
       p.style.padding = "1px 0 1px 5px";
 
@@ -120,15 +117,16 @@ const observerCallback = (mutationList, observer) => {
       moveDdTextToDt(".chat_area dl");
 
       applyRandomPastelColorsToNewLinks(".chat_area dl a");
-
-      if (mutation.type === "class") {
-        adjustChatAreaPColor();
-      }
+    }
+    if (mutation.type === "attributes" && mutation.target.localName === "body") {
+      adjustChatAreaPColor();
     }
   }
 };
 
 const observerOptions = {
+  attributes: true, // 속성의 변화를 관찰
+  attributeFilter: ["class"], // 'class' 속성의 변화만 관찰
   childList: true, // 자식 요소의 변화를 관찰
   subtree: true, // 모든 하위 요소에 대한 변화를 관찰
 };
