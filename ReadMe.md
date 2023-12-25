@@ -2,7 +2,7 @@
 
 이 크롬 익스텐션은 아프리카TV 채팅창의 디자인을 변경하는 기능을 제공합니다.
 
-![Alt text](<아프리카TV 아이콘-1.png>)
+![Alt text](mdImages/icon.png)
 
 ## 기능
 
@@ -15,9 +15,9 @@
 
 3. 채팅창 닉네임 에 색상 랜덤 변경
 
-![Alt text](before.png)
+![Alt text](mdImages/before.png)
 
-![Alt text](after.png)
+![Alt text](mdImages/after.png)
 
 ## 설치 방법
 
