@@ -2,7 +2,7 @@
 
 이 크롬 익스텐션은 아프리카TV 채팅창의 디자인을 변경하는 기능을 제공합니다.
 
-![Extension Preview](images/AFTVICON.png)
+![Alt text](<아프리카TV 아이콘.png>)
 
 ## 기능
 
