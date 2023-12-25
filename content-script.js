@@ -89,6 +89,15 @@ function applyRandomPastelColorsToNewLinks(selector) {
   });
 }
 
+function adjustChatAreaPColor() {
+  const chatAreaPs = document.querySelectorAll(".chat_area dl p");
+  const isDarkTheme = document.body.classList.contains("thema_dark");
+
+  chatAreaPs.forEach((p) => {
+    p.style.color = isDarkTheme ? "#fff" : "black";
+  });
+}
+
 const observerCallback = (mutationList, observer) => {
   for (const mutation of mutationList) {
     if (mutation.type === "childList") {
@@ -111,6 +120,10 @@ const observerCallback = (mutationList, observer) => {
       moveDdTextToDt(".chat_area dl");
 
       applyRandomPastelColorsToNewLinks(".chat_area dl a");
+
+      if (mutation.type === "class") {
+        adjustChatAreaPColor();
+      }
     }
   }
 };
