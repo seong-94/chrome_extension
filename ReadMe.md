@@ -16,7 +16,7 @@
 3. 채팅창 닉네임 에 색상 랜덤 변경
 
 ![Alt text](mdImages/before.png)
-
+⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️
 ![Alt text](mdImages/after.png)
 
 ## 설치 방법
