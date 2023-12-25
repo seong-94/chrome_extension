@@ -66,11 +66,22 @@ function moveDdTextToDt(dlSelector) {
   });
 }
 
-function getRandomPastelColor() {
-  // 파스텔 색상을 위해 높은 RGB 값을 랜덤으로 생성
-  const r = Math.floor(Math.random() * 128 + 127); // 127-255
-  const g = Math.floor(Math.random() * 128 + 127); // 127-255
-  const b = Math.floor(Math.random() * 128 + 127); // 127-255
+function getRandomColorBasedOnTheme() {
+  const isDarkTheme = document.body.classList.contains("thema_dark");
+  let r, g, b;
+
+  if (isDarkTheme) {
+    // 밝은색 색상 생성
+    r = Math.floor(Math.random() * 128 + 127); // 127-255
+    g = Math.floor(Math.random() * 128 + 127); // 127-255
+    b = Math.floor(Math.random() * 128 + 127); // 127-255
+  } else {
+    // 어두운색 색상 생성
+    r = Math.floor(Math.random() * 128); // 0-127
+    g = Math.floor(Math.random() * 128); // 0-127
+    b = Math.floor(Math.random() * 128); // 0-127
+  }
+
   return `rgb(${r}, ${g}, ${b})`;
 }
 
@@ -79,7 +90,7 @@ function applyRandomPastelColorsToNewLinks(selector) {
   const links = document.querySelectorAll(`${selector}:not([data-colored])`);
 
   links.forEach((link) => {
-    const pastelColor = getRandomPastelColor();
+    const pastelColor = getRandomColorBasedOnTheme();
     link.style.color = pastelColor;
     link.style.fontWeight = "bold";
     link.setAttribute("data-colored", "true"); // 스타일 적용 여부를 표시하는 데이터 속성을 추가합니다.
