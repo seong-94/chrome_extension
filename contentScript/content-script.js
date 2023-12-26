@@ -1,6 +1,5 @@
 /*  정해진 요소의 패딩을 변경
  *  "1px 0 1px 30px" => "1px 0 1px 8px"*/
-
 function editCharAreaPadding(selectors) {
   selectors.forEach((selector) => {
     const elements = document.querySelectorAll(selector);
@@ -96,15 +95,6 @@ function applyRandomPastelColorsToNewLinks(selector) {
     link.setAttribute("data-colored", "true"); // 스타일 적용 여부를 표시하는 데이터 속성을 추가합니다.
   });
 }
-
-// function adjustChatAreaPColor() {
-//   const chatAreaPs = document.querySelectorAll(".chat_area dl p");
-//   const isDarkTheme = document.body.classList.contains("thema_dark");
-
-//   chatAreaPs.forEach((p) => {
-//     p.style.color = isDarkTheme ? "#fff" : "black";
-//   });
-// }
 
 function adjustChatAreaColors() {
   const isDarkTheme = document.body.classList.contains("thema_dark");

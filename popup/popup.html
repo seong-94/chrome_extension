@@ -4,58 +4,113 @@
     <link rel="stylesheet" href="button.css" />
     <style>
       body {
-        width: 100px;
-        height: 100px;
-        padding: 10px;
+        width: 200px;
+        height: 150px;
+        padding: 20px;
         font-family: "Segoe UI", sans-serif;
       }
-      .toggleSwitch {
-        width: 50px;
-        height: 25px;
-        display: block;
-        position: relative;
-        border-radius: 30px;
-        background-color: #fff;
-        box-shadow: 0 0 16px 3px rgba(0 0 0 / 15%);
-        cursor: pointer;
-        margin: 30px;
+      .extension-title {
+        font-size: 13px;
       }
-      .toggleSwitch .toggleButton {
-        width: 20px;
+
+      .function-wrapper {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .checkbox-wrapper .ikxBAC {
+        appearance: none;
+        background-color: #dfe1e4;
+        border-radius: 72px;
+        border-style: none;
+        flex-shrink: 0;
         height: 20px;
+        margin: 0;
+        position: relative;
+        width: 30px;
+      }
+
+      .checkbox-wrapper .ikxBAC::before {
+        bottom: -6px;
+        content: "";
+        left: -6px;
         position: absolute;
-        top: 50%;
-        left: 4px;
-        transform: translateY(-50%);
+        right: -6px;
+        top: -6px;
+      }
+
+      .checkbox-wrapper .ikxBAC,
+      .checkbox-wrapper .ikxBAC::after {
+        transition: all 100ms ease-out;
+      }
+
+      .checkbox-wrapper .ikxBAC::after {
+        background-color: #fff;
         border-radius: 50%;
-        background: #f03d3d;
+        content: "";
+        height: 14px;
+        left: 3px;
+        position: absolute;
+        top: 3px;
+        width: 14px;
       }
 
-      #toggle:checked ~ .toggleSwitch {
-        background: #f03d3d;
+      .checkbox-wrapper input[type="checkbox"] {
+        cursor: default;
       }
 
-      #toggle:checked ~ .toggleSwitch .toggleButton {
-        left: calc(100% - 22px);
-        background: #fff;
+      .checkbox-wrapper .ikxBAC:hover {
+        background-color: #c9cbcd;
+        transition-duration: 0s;
       }
-      .toggleSwitch,
-      .toggleButton {
-        transition: all 0.2s ease-in;
+
+      .checkbox-wrapper .ikxBAC:checked {
+        background-color: #6e79d6;
       }
-      #test {
-        width: 25px;
-        height: 25px;
-        background-color: aqua;
+
+      .checkbox-wrapper .ikxBAC:checked::after {
+        background-color: #fff;
+        left: 13px;
+      }
+
+      .checkbox-wrapper :focus:not(.focus-visible) {
+        outline: 0;
+      }
+
+      .checkbox-wrapper .ikxBAC:checked:hover {
+        background-color: #535db3;
       }
     </style>
   </head>
   <body>
     <div>
-      아프리카 채팅창 디자인 변경 1.0<br />
-      <!-- 아프리카 채팅창의 디자인을 깔끔하게 도와줍니다.<br />
-      추후 디자인 추가 및 / 토글 버튼으로 전환 예정<br />
-      1. 채팅창 2줄 넘을시 아이디 2줄 넘는 버그<br /> -->
+      <h3 class="extension-title">아프리카 채팅창 디자인 변경 1.0</h3>
+
+      <!-- <div class="function-wrapper">
+        <div>채팅창 닉네임 색상 적용</div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" class="sc-gJwTLC ikxBAC" />
+        </div>
+      </div>
+      <div class="function-wrapper">
+        <div>채팅창 닉네임 색상 적용</div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" class="sc-gJwTLC ikxBAC" />
+        </div>
+      </div>
+      <div class="function-wrapper">
+        <div>채팅창 닉네임 색상 적용</div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" class="sc-gJwTLC ikxBAC" />
+        </div>
+      </div>
+      <div class="function-wrapper">
+        <div>채팅창 닉네임 색상 적용</div>
+        <div class="checkbox-wrapper">
+          <input type="checkbox" class="sc-gJwTLC ikxBAC" />
+        </div>
+      </div> -->
+      <script src="popup.js"></script>
     </div>
   </body>
 </html>
