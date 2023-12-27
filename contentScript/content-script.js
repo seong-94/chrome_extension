@@ -136,7 +136,7 @@ const observerCallback = (mutationList, observer) => {
 
       moveDdTextToDt(".chat_area dl");
 
-      applyRandomPastelColorsToNewLinks(".chat_area dl a");
+      // applyRandomPastelColorsToNewLinks(".chat_area dl a");
     }
     if (mutation.type === "attributes" && mutation.target.localName === "body") {
       adjustChatAreaColors();
@@ -156,3 +156,15 @@ const observer = new MutationObserver(observerCallback);
 
 // 옵저버가 전체 페이지의 변화를 관찰하도록 설정
 observer.observe(document.body, observerOptions);
+
+// 메시지 리스너 추가
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.action === "enable-feature") {
+    // 기능을 활성화합니다.
+    console.log(request);
+    applyRandomPastelColorsToNewLinks(".chat_area dl a");
+  } else if (request.action === "disable-feature") {
+    // 기능을 비활성화합니다.
+    // applyRandomPastelColorsToNewLinks(".chat_area dl a");
+  }
+});
