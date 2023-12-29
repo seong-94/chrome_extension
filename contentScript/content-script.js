@@ -8,6 +8,19 @@ function fetchAndObserveSettings() {
   });
 }
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "update-applyRandomPastelColorsToNewLinks") {
+    // 메시지에 담긴 새로운 설정값을 사용하여 필요한 작업을 수행합니다.
+    if (message.value) {
+      // 설정이 true일 때 수행할 작업
+      fetchAndObserveSettings();
+    } else {
+      fetchAndObserveSettings();
+      // 설정이 false일 때 수행할 작업
+    }
+  }
+});
+
 /*  정해진 요소의 패딩을 변경
  *  "1px 0 1px 30px" => "1px 0 1px 8px"*/
 function editCharAreaPadding(selectors) {
@@ -75,34 +88,55 @@ function moveDdTextToDt(dlSelector) {
   });
 }
 
-function getRandomColorBasedOnTheme() {
-  const isDarkTheme = document.body.classList.contains("thema_dark");
-  let r, g, b;
-
-  if (isDarkTheme) {
-    // 밝은색 색상 생성
-    r = Math.floor(Math.random() * 128 + 127); // 127-255
-    g = Math.floor(Math.random() * 128 + 127); // 127-255
-    b = Math.floor(Math.random() * 128 + 127); // 127-255
-  } else {
-    // 어두운색 색상 생성
-    r = Math.floor(Math.random() * 128); // 0-127
-    g = Math.floor(Math.random() * 128); // 0-127
-    b = Math.floor(Math.random() * 128); // 0-127
+function stringToColor(str, isDarkTheme) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
 
-  return `rgb(${r}, ${g}, ${b})`;
+  let color = (hash & 0x00ffffff).toString(16).toUpperCase();
+  color = "00000".substring(0, 6 - color.length) + color;
+
+  if (isDarkTheme) {
+    // 어두운 테마에 맞게 색상의 명도를 밝게 조정합니다.
+    return adjustColorBrightness(`#${color}`, 40);
+  } else {
+    // 밝은 테마에 맞게 색상의 명도를 어둡게 조정합니다.
+    return adjustColorBrightness(`#${color}`, -40);
+  }
+}
+
+// 랜덤 컬러
+function adjustColorBrightness(hex, brightness) {
+  const rgb = parseInt(hex.slice(1), 16);
+  const r = Math.max(0, Math.min(255, (rgb >> 16) + brightness));
+  const g = Math.max(0, Math.min(255, ((rgb >> 8) & 0x00ff) + brightness));
+  const b = Math.max(0, Math.min(255, (rgb & 0x0000ff) + brightness));
+
+  return `#${(0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1)}`;
 }
 
 function applyRandomPastelColorsToNewLinks(selector) {
-  // 주어진 selector와 :not([data-colored])를 함께 사용하여 색상이 적용되지 않은 링크들만 선택합니다.
-  const links = document.querySelectorAll(`${selector}:not([data-colored])`);
+  const dlElements = document.querySelectorAll(`${selector}:not([data-colored])`);
+  const isDarkTheme = document.body.classList.contains("thema_dark");
 
-  links.forEach((link) => {
-    const pastelColor = getRandomColorBasedOnTheme();
-    link.style.color = pastelColor;
-    link.style.fontWeight = "bold";
-    link.setAttribute("data-colored", "true"); // 스타일 적용 여부를 표시하는 데이터 속성을 추가합니다.
+  // userId와 색상 값을 캐싱하기 위한 객체
+  const colorCache = {};
+
+  dlElements.forEach((dlElement) => {
+    const userId = dlElement.getAttribute("user_id");
+
+    // 캐시에서 색상을 가져오거나 새로 계산합니다.
+    let pastelColor = colorCache[userId];
+    if (!pastelColor) {
+      pastelColor = stringToColor(userId, isDarkTheme);
+      colorCache[userId] = pastelColor; // 계산된 색상을 캐시에 저장합니다.
+    }
+
+    // 스타일을 적용합니다.
+    dlElement.style.color = pastelColor;
+    dlElement.style.fontWeight = "bold";
+    dlElement.setAttribute("data-colored", "true");
   });
 }
 
@@ -118,41 +152,54 @@ function adjustChatAreaColors() {
   // a 태그의 색상 조정
   const chatAreaAs = document.querySelectorAll(".chat_area dl a");
   chatAreaAs.forEach((a) => {
+    const userId = a.getAttribute("user_id");
     // 이미 적용된 색상(data-colored)이 있다면, 색상을 조정합니다.
     if (a.hasAttribute("data-colored")) {
-      a.style.color = getRandomColorBasedOnTheme(isDarkTheme);
+      a.style.color = stringToColor(userId, isDarkTheme);
     }
   });
 }
 
-const observerCallback = (mutationList, observer) => {
-  for (const mutation of mutationList) {
-    if (mutation.type === "childList") {
-      // 'chat_area' 클래스 내부의 'dl' 태그 안에 있는 모든 <img> 태그를 숨깁니다.
-      editCharAreaPadding([".chat_area dl dd", ".chat_area dl dt"]);
+// 페이지 변화를 감시하는 MutationObserver를 설정합니다.
+function observePageMutations() {
+  const observer = new MutationObserver((mutationList, observer) => {
+    for (const mutation of mutationList) {
+      // DOM 변화에 따라 함수를 실행합니다.
+      if (mutation.type === "childList") {
+        editCharAreaPadding([".chat_area dl dd", ".chat_area dl dt"]);
 
-      editCharAreaFlex(".chat_area dl");
+        editCharAreaFlex(".chat_area dl");
 
-      hideImagesWithCertainTitles(".chat_area dl img", [
-        "매니저",
-        "구독팬",
-        "팬클럽",
-        "퀵뷰 사용자",
-        "서포터",
-        "열혈팬",
-      ]);
+        hideImagesWithCertainTitles(".chat_area dl img", [
+          "매니저",
+          "구독팬",
+          "팬클럽",
+          "퀵뷰 사용자",
+          "서포터",
+          "열혈팬",
+        ]);
 
-      removeElementBySelector([".pc", ".chat_area dl span"]);
+        removeElementBySelector([".pc", ".chat_area dl span"]);
 
-      moveDdTextToDt(".chat_area dl");
+        moveDdTextToDt(".chat_area dl");
 
-      // applyRandomPastelColorsToNewLinks(".chat_area dl a");
+        if (cachedSettings.applyRandomPastelColorsToNewLinks) {
+          applyRandomPastelColorsToNewLinks(".chat_area dl a");
+        }
+      }
+      if (mutation.type === "attributes" && mutation.target.localName === "body") {
+        adjustChatAreaColors();
+      }
     }
-    if (mutation.type === "attributes" && mutation.target.localName === "body") {
-      adjustChatAreaColors();
-    }
-  }
-};
+  });
+
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ["class"],
+    childList: true,
+    subtree: true,
+  });
+}
 
 const observerOptions = {
   attributes: true, // 속성의 변화를 관찰
@@ -160,24 +207,5 @@ const observerOptions = {
   childList: true, // 자식 요소의 변화를 관찰
   subtree: true, // 모든 하위 요소에 대한 변화를 관찰
 };
-
-// 뮤테이션 옵저버 인스턴스 생성
-const observer = new MutationObserver(observerCallback);
-
-// 옵저버가 전체 페이지의 변화를 관찰하도록 설정
-observer.observe(document.body, observerOptions);
-
-// 메시지 리스너 추가
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === "enable-feature") {
-    // 기능을 활성화합니다.
-    console.log(request);
-    applyRandomPastelColorsToNewLinks(".chat_area dl a");
-  } else if (request.action === "disable-feature") {
-    // 기능을 비활성화합니다.
-    // applyRandomPastelColorsToNewLinks(".chat_area dl a");
-  }
-});
-
 // 초기 설정을 불러옵니다.
 fetchAndObserveSettings();
