@@ -1,3 +1,13 @@
+let cachedSettings = {};
+
+// 설정을 불러와 캐시하고 MutationObserver를 설정합니다.
+function fetchAndObserveSettings() {
+  chrome.storage.local.get(["applyRandomPastelColorsToNewLinks"], function (settings) {
+    cachedSettings = settings; // 설정을 캐시합니다.
+    observePageMutations(); // 설정이 로드된 후에 MutationObserver를 시작합니다.
+  });
+}
+
 /*  정해진 요소의 패딩을 변경
  *  "1px 0 1px 30px" => "1px 0 1px 8px"*/
 function editCharAreaPadding(selectors) {
@@ -168,3 +178,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     // applyRandomPastelColorsToNewLinks(".chat_area dl a");
   }
 });
+
+// 초기 설정을 불러옵니다.
+fetchAndObserveSettings();
