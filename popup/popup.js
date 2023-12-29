@@ -30,7 +30,7 @@ function createFunctionWrapper(id) {
   // checkbox에 change 이벤트 리스너 추가
   checkbox.addEventListener("change", function () {
     let message = this.checked ? "enable-color" : "disable-color";
-    console.log("asas");
+
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, { action: message });
     });
