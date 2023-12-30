@@ -11,13 +11,7 @@ function fetchAndObserveSettings() {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "update-applyRandomPastelColorsToNewLinks") {
     // 메시지에 담긴 새로운 설정값을 사용하여 필요한 작업을 수행합니다.
-    if (message.value) {
-      // 설정이 true일 때 수행할 작업
-      fetchAndObserveSettings();
-    } else {
-      fetchAndObserveSettings();
-      // 설정이 false일 때 수행할 작업
-    }
+    fetchAndObserveSettings();
   }
 });
 
@@ -207,5 +201,6 @@ const observerOptions = {
   childList: true, // 자식 요소의 변화를 관찰
   subtree: true, // 모든 하위 요소에 대한 변화를 관찰
 };
+
 // 초기 설정을 불러옵니다.
 fetchAndObserveSettings();
