@@ -1,4 +1,6 @@
 # 아프리카 채팅창 디자인 변경 크롬 익스텐션
+# 런칭주소: https://chromewebstore.google.com/detail/%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4-%EC%B1%84%ED%8C%85%EC%B0%BD-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%B3%80%EA%B2%BD/aalgknbacadffkhbincnbcmcjdbgbdlb?hl=ko
+
 
 이 크롬 익스텐션은 아프리카TV 채팅창의 디자인을 변경하는 기능을 제공합니다.
 
